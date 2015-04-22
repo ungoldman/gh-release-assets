@@ -1,0 +1,37 @@
+{
+  "name": "gh-release-assets",
+  "description": "Upload assets to a GitHub release",
+  "version": "1.0.0",
+  "author": "Paul C Pederson <paul.c.pederson@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/paulcpederson/gh-release-assets/issues"
+  },
+  "devDependencies": {
+    "faucet": "0.0.1",
+    "standard": "^3.3.2",
+    "tape": "^4.0.0"
+  },
+  "homepage": "https://github.com/paulcpederson/gh-release-assets",
+  "keywords": [
+    "gh-release",
+    "github",
+    "release",
+    "upload"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paulcpederson/gh-release-assets.git"
+  },
+  "scripts": {
+    "test": "standard && faucet"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "mime": "^1.3.4",
+    "progress-stream": "^1.1.1",
+    "request": "^2.55.0",
+    "util-extend": "^1.0.1"
+  }
+}
