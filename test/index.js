@@ -1,6 +1,4 @@
 var ghReleaseAssets = require('../')
-var pkg = require('../package.json')
-var request = require('request')
 var format = require('util').format
 var path = require('path')
 var test = require('tape')
@@ -19,65 +17,33 @@ function auth (assets) {
   return options
 }
 
-var options = {
-  url: format('https://api.github.com/repos/%s/releases/%s/assets', REPO, RELEASE),
-  headers: {
-    'User-Agent': format('gh-release-assets %s (https://github.com/paulcpederson/gh-release-assets)', pkg.version)
-  }
-}
-
 test('should upload an asset in string format', function (t) {
   var assets = [fixture('bananas.txt')]
   ghReleaseAssets(auth(assets), function (err, files) {
-    t.equal(files.length, 1)
-    t.end(err)
+    t.error(err)
+    t.equal(files[0], 'bananas.txt')
+    t.end()
   })
 })
 
-test('should upload an asset in object format', function (t) {
-  var assets = [{
-    name: 'banana.txt',
-    path: fixture('bananas.txt')
-  }]
-  ghReleaseAssets(auth(assets), function (err, files) {
-    t.equal(files.length, 1)
-    t.end(err)
-  })
-})
-
-test('should properly upload an asset', function (t) {
-  var assets = [fixture('bananas.txt')]
-  ghReleaseAssets(auth(assets), function (err, files) {
-    if (err) {
-      t.fail('error uploading assets')
-    }
-    request(options, function (err, response, body) {
-      var uploads = JSON.parse(body)
-      var dateFile = uploads.filter(function (upload) {
-        return upload.name === 'bananas.txt'
-      })
-      t.equal(dateFile.length, 1)
-      t.end(err)
-    })
-  })
-})
-
-test('should properly rename an asset in object format', function (t) {
+test('should upload an answer in object format', function (t) {
   var fileName = Date.now() + '.txt'
   var assets = [{
     name: fileName,
     path: fixture('bananas.txt')
   }]
   ghReleaseAssets(auth(assets), function (err, files) {
+    t.error(err)
     t.equal(files[0], fileName)
-    t.end(err)
+    t.end()
   })
 })
 
 test('should emit `upload-asset` event', function (t) {
   var assets = [fixture('bananas.txt')]
   var release = ghReleaseAssets(auth(assets), function (err) {
-    t.end(err)
+    t.error(err)
+    t.end()
   })
   release.on('upload-asset', function (fileName) {
     t.equal(fileName, 'bananas.txt')
