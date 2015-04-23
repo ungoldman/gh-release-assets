@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+- '0.12'
+- iojs
+sudo: false
+cache:
+  directories:
+  - node_modules
+script:
+- npm test
+env:
+  global:
+  - secure: pBNboIu6vFPRR5+SsFD4jW4vwS+5VzClTroIN4YXysEUD0n3LmQYaJ2tO7Sy8fwmYsWoM7LKWziFDZ6f9IFkdji0orqVL0wjtw8O0ltX4yvXFsFl/atsgPaFz8rFNPVHem5JWzWPG8nXDfUUSsgmxA0NV1h+2Zyx2nOmK3Zvhxc=
+  - secure: L+4oePHq/bSzDTJ9x2uBCtcDdXPDnOKsWg26UBW0Dklv5GlwUxUsJO+c1GJmEForYt6R3k+AzJ0AyFFLIxsdzQYVYJBQBJcnY1+n7bcBbJNFJmK7bz9lDqgBTRFav98yw0nIytFp20H9dDHdHdQRKCVTdSx64uQPapf1JUuw3CI=
