@@ -46,11 +46,9 @@ curl -i https://api.github.com/repos/:owner/:repo/releases
 * `upload-progress` - `{name, progress}` - Emits while a file is uploading. Emits the `name` of the file, and a `progress` object from [`progress-stream`](https://github.com/freeall/progress-stream).
 * `uploaded-asset` - `{name}` - Emits after an asset file is successfully uploaded. Emits the `name` of the file.
 
-
-
 ## Contributing
 
-[Open-2](CONTRIBUTING.md)
+Contributions welcome! Please read the [contributing guidelines](CONTRIBUTING.md) before opening an issue or making a pull request.
 
 ## License
 
