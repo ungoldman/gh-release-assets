@@ -69,15 +69,8 @@ test('should properly rename an asset in object format', function (t) {
     path: fixture('bananas.txt')
   }]
   ghReleaseAssets(auth(assets), function (err, files) {
-    if (err) t.fail(err)
-    request(options, function (err, response, body) {
-      var uploads = JSON.parse(body)
-      var dateFile = uploads.filter(function (upload) {
-        return upload.name === fileName
-      })
-      t.equal(dateFile.length, 1)
-      t.end(err)
-    })
+    t.equal(files[0], fileName)
+    t.end(err)
   })
 })
 
