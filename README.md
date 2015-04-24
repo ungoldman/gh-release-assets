@@ -40,6 +40,32 @@ GitHub returns the upload url in the correct format after you create a release a
 curl -i https://api.github.com/repos/:owner/:repo/releases
 ```
 
+You can also use a username/password instead of a token by passing an `auth` object:
+
+```js
+var ghReleaseAssets = require('gh-release-assets')
+
+ghReleaseAssets({
+  url: 'https://uploads.github.com/repos/octocat/Hello-World/releases/1197692/assets{?name}',
+  auth: {
+    username: 'CoolGuy'
+    password: 'KeepItSecret'
+  },
+  assets: [
+    '/path/to/foo.txt',
+    '/path/to/bar.zip',
+    {
+      name: 'baz.txt',
+      path: '/path/to/baz.txt'
+    }
+  ]
+}, function (err, assets) {
+  console.log(assets)
+})
+```
+
+Either a `token` or `auth` is required.
+
 `gh-release-assets` also emits the following events:
 
 * `upload-asset` - `{name}` - Emits before an asset file starts uploading. Emits the `name` of the file.

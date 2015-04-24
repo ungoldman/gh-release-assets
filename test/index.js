@@ -77,7 +77,7 @@ test('should return an error for missing files', function (t) {
   })
 })
 
-test('should return an error if there is no token', function (t) {
+test('should return an error if there is no token or auth', function (t) {
   var options = {
     url: 'https://uploads.github.com/repos/bcomnes/gh-release-test/releases/1039654/assets{?name}',
     assets: [fixture('bananas.txt')]

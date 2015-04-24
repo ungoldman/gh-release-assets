@@ -14,7 +14,7 @@ function Upload () {
   var cb = this.cb
 
   if (!opts.assets || opts.assets.length === 0) return cb([])
-  if (!opts.token) return cb(new Error('You must define a valid GitHub user token as `token`.'))
+  if (!opts.token && !opts.auth) return cb(new Error('You must define either a token or username/password'))
   var files = []
 
   async.eachSeries(opts.assets, function (asset, callback) {
@@ -33,16 +33,21 @@ function Upload () {
     self.emit('upload-asset', fileName)
 
     var rd = fs.createReadStream(asset)
-    var us = request({
+
+    var form = {
       method: 'POST',
       uri: uploadUri,
       headers: {
-        'Authorization': 'token ' + opts.token,
         'Content-Type': mime.lookup(fileName),
         'Content-Length': stat.size,
         'User-Agent': 'gh-release-assets ' + pkg.version + ' (https://github.com/paulcpederson/gh-release-assets)'
       }
-    })
+    }
+
+    if (opts.token) { form.headers.Authorization = 'token ' + opts.token }
+    if (opts.auth) { form.auth = opts.auth }
+
+    var us = request(form)
 
     var progressOpts = { length: stat.size, time: 100 }
     var prog = progress(progressOpts, function (p) {
