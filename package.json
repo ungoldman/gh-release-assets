@@ -4,7 +4,7 @@
   "version": "1.1.0",
   "author": "Paul C Pederson <paul.c.pederson@gmail.com>",
   "bugs": {
-    "url": "https://github.com/paulcpederson/gh-release-assets/issues"
+    "url": "https://github.com/hypermodules/gh-release-assets/issues"
   },
   "dependencies": {
     "async": "^0.9.0",
@@ -21,7 +21,7 @@
   "files": [
     "index.js"
   ],
-  "homepage": "https://github.com/paulcpederson/gh-release-assets",
+  "homepage": "https://github.com/hypermodules/gh-release-assets",
   "keywords": [
     "gh-release",
     "github",
@@ -32,7 +32,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/paulcpederson/gh-release-assets.git"
+    "url": "https://github.com/hypermodules/gh-release-assets.git"
   },
   "scripts": {
     "test": "standard && faucet"

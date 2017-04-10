@@ -40,7 +40,7 @@ function Upload () {
       headers: {
         'Content-Type': mime.lookup(fileName),
         'Content-Length': stat.size,
-        'User-Agent': 'gh-release-assets ' + pkg.version + ' (https://github.com/paulcpederson/gh-release-assets)'
+        'User-Agent': 'gh-release-assets ' + pkg.version + ' (https://github.com/hypermodules/gh-release-assets)'
       }
     }
 
