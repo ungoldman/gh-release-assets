@@ -13,7 +13,7 @@ function Upload () {
   var opts = this.opts
   var cb = this.cb
 
-  if (!opts.assets || opts.assets.length === 0) return cb([])
+  if (!opts.assets || opts.assets.length === 0) return cb(new Error('Must specify at least one asset to upload'))
   if (!opts.token && !opts.auth) return cb(new Error('You must define either a token or username/password'))
   var files = []
 

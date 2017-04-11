@@ -5,7 +5,7 @@ var test = require('tape')
 var fixture = path.join.bind(null, __dirname, 'fixtures')
 
 var TOKEN = process.env.TOKEN
-var REPO = process.env.REPO || 'bcomnes/gh-release-test'
+var REPO = process.env.REPO || 'hypermodules/gh-release-test'
 var RELEASE = process.env.RELEASE
 
 function auth (assets) {
@@ -17,11 +17,38 @@ function auth (assets) {
   return options
 }
 
+test('should return an error if no assets passed', function (t) {
+  var assets = []
+  ghReleaseAssets(auth(assets), function (err, assets) {
+    t.ok(err)
+    t.end()
+  })
+})
+
+test('should return an error for missing files', function (t) {
+  var assets = ['non-existent-bananas.txt']
+  ghReleaseAssets(auth(assets), function (err, assets) {
+    t.ok(err)
+    t.end()
+  })
+})
+
+test('should return an error if there is no token or auth', function (t) {
+  var options = {
+    url: 'https://uploads.github.com/repos/bcomnes/gh-release-test/releases/1039654/assets{?name}',
+    assets: [fixture('bananas.txt')]
+  }
+  ghReleaseAssets(options, function (err, assets) {
+    t.ok(err)
+    t.end()
+  })
+})
+
 test('should upload an asset in string format', function (t) {
-  var assets = [fixture('bananas.txt')]
+  var assets = [fixture('bananas.zip')]
   ghReleaseAssets(auth(assets), function (err, files) {
     t.error(err)
-    t.equal(files[0], 'bananas.txt')
+    t.equal(files[0], 'bananas.zip')
     t.end()
   })
 })
@@ -66,24 +93,5 @@ test('should emit `uploaded-asset` event', function (t) {
   var release = ghReleaseAssets(auth(assets))
   release.on('uploaded-asset', function (fileName) {
     t.equal(fileName, 'bananas.txt')
-  })
-})
-
-test('should return an error for missing files', function (t) {
-  var assets = ['non-existent-bananas.txt']
-  ghReleaseAssets(auth(assets), function (err, assets) {
-    t.ok(err)
-    t.end()
-  })
-})
-
-test('should return an error if there is no token or auth', function (t) {
-  var options = {
-    url: 'https://uploads.github.com/repos/bcomnes/gh-release-test/releases/1039654/assets{?name}',
-    assets: [fixture('bananas.txt')]
-  }
-  ghReleaseAssets(options, function (err, assets) {
-    t.ok(err)
-    t.end()
   })
 })
