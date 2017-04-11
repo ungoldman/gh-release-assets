@@ -1,7 +1,7 @@
 {
   "name": "gh-release-assets",
   "description": "Upload assets to a GitHub release",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Paul C Pederson <paul.c.pederson@gmail.com>",
   "bugs": {
     "url": "https://github.com/hypermodules/gh-release-assets/issues"
@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "faucet": "0.0.1",
+    "gh-release": "^2.2.1",
     "standard": "^10.0.1",
     "tape": "^4.0.0"
   },
@@ -35,6 +36,7 @@
     "url": "https://github.com/hypermodules/gh-release-assets.git"
   },
   "scripts": {
+    "release": "gh-release --owner=hypermodules && npm publish",
     "test": "standard && faucet"
   }
 }
