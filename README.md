@@ -1,5 +1,7 @@
 # gh-release-assets
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/hypermodules/gh-release-assets.svg)](https://greenkeeper.io/)
+
 [![npm][npm-image]][npm-url]
 [![travis][travis-image]][travis-url]
 
