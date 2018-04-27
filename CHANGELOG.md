@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [1.1.2](https://github.com/hypermodules/gh-release-assets/releases/v1.1.2)
+
+- update `request` dependency
+
 ## [1.1.1](https://github.com/hypermodules/gh-release-assets/releases/v1.1.1)
 
 - src: lint, fix tests, add no assets error message
