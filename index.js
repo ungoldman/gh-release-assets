@@ -74,7 +74,7 @@ function Upload () {
 }
 
 function UploadAsset (opts, cb) {
-  var Uploader = extend(new Emitter(), {upload: Upload})
+  var Uploader = extend(new Emitter(), { upload: Upload })
   var uploader = Object.create(Uploader)
   uploader.opts = opts || {}
   uploader.cb = cb || function noop () {}
