@@ -7,6 +7,7 @@ var fs = require('fs')
 var path = require('path')
 var Emitter = require('events').EventEmitter
 var pkg = require('./package.json')
+var pumpify = require('pumpify')
 
 function Upload () {
   var self = this
@@ -32,6 +33,13 @@ function Upload () {
 
     self.emit('upload-asset', fileName)
 
+    var rd = fs.createReadStream(asset)
+
+    var progressOpts = { length: stat.size, time: 100 }
+    var prog = progress(progressOpts, function (p) {
+      self.emit('upload-progress', fileName, p)
+    })
+
     var form = {
       method: 'POST',
       url: uploadUri,
@@ -39,7 +47,8 @@ function Upload () {
         'Content-Type': mime.getType(fileName),
         'Content-Length': stat.size,
         'User-Agent': 'gh-release-assets ' + pkg.version + ' (https://github.com/hypermodules/gh-release-assets)'
-      }
+      },
+      body: pumpify(rd, prog)
     }
 
     if (opts.token) { form.headers.Authorization = 'token ' + opts.token }
@@ -48,23 +57,9 @@ function Upload () {
     get(form, function (err, res) {
       if (err) return callback(err)
 
-      var rd = fs.createReadStream(asset)
-
-      var progressOpts = { length: stat.size, time: 100 }
-      var prog = progress(progressOpts, function (p) {
-        self.emit('upload-progress', fileName, p)
-      })
-
-      rd.on('error', callback)
-      res.on('error', callback)
-
-      res.on('end', function () {
-        self.emit('uploaded-asset', fileName)
-        files.push(fileName)
-        callback()
-      })
-
-      rd.pipe(prog).pipe(res)
+      self.emit('uploaded-asset', fileName)
+      files.push(fileName)
+      callback()
     })
   }, function (err) {
     if (err) {
