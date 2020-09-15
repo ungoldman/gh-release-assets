@@ -1,5 +1,5 @@
 var extend = require('util-extend')
-var request = require('request')
+var get = require('simple-get')
 var async = require('async')
 var mime = require('mime')
 var progress = require('progress-stream')
@@ -7,6 +7,7 @@ var fs = require('fs')
 var path = require('path')
 var Emitter = require('events').EventEmitter
 var pkg = require('./package.json')
+var pumpify = require('pumpify')
 
 function Upload () {
   var self = this
@@ -34,36 +35,32 @@ function Upload () {
 
     var rd = fs.createReadStream(asset)
 
-    var form = {
-      method: 'POST',
-      uri: uploadUri,
-      headers: {
-        'Content-Type': mime.lookup(fileName),
-        'Content-Length': stat.size,
-        'User-Agent': 'gh-release-assets ' + pkg.version + ' (https://github.com/hypermodules/gh-release-assets)'
-      }
-    }
-
-    if (opts.token) { form.headers.Authorization = 'token ' + opts.token }
-    if (opts.auth) { form.auth = opts.auth }
-
-    var us = request(form)
-
     var progressOpts = { length: stat.size, time: 100 }
     var prog = progress(progressOpts, function (p) {
       self.emit('upload-progress', fileName, p)
     })
 
-    rd.on('error', callback)
-    us.on('error', callback)
+    var form = {
+      method: 'POST',
+      url: uploadUri,
+      headers: {
+        'Content-Type': mime.getType(fileName),
+        'Content-Length': stat.size,
+        'User-Agent': 'gh-release-assets ' + pkg.version + ' (https://github.com/hypermodules/gh-release-assets)'
+      },
+      body: pumpify(rd, prog)
+    }
 
-    us.on('end', function () {
+    if (opts.token) { form.headers.Authorization = 'token ' + opts.token }
+    if (opts.auth) { form.auth = opts.auth }
+
+    get(form, function (err, res) {
+      if (err) return callback(err)
+
       self.emit('uploaded-asset', fileName)
       files.push(fileName)
       callback()
     })
-
-    rd.pipe(prog).pipe(us)
   }, function (err) {
     if (err) {
       cb(err)
@@ -74,7 +71,7 @@ function Upload () {
 }
 
 function UploadAsset (opts, cb) {
-  var Uploader = extend(new Emitter(), {upload: Upload})
+  var Uploader = extend(new Emitter(), { upload: Upload })
   var uploader = Object.create(Uploader)
   uploader.opts = opts || {}
   uploader.cb = cb || function noop () {}
