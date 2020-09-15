@@ -38,7 +38,7 @@ function Upload () {
       method: 'POST',
       uri: uploadUri,
       headers: {
-        'Content-Type': mime.lookup(fileName),
+        'Content-Type': mime.getType(fileName),
         'Content-Length': stat.size,
         'User-Agent': 'gh-release-assets ' + pkg.version + ' (https://github.com/hypermodules/gh-release-assets)'
       }
