@@ -7,7 +7,7 @@
     "url": "https://github.com/hypermodules/gh-release-assets/issues"
   },
   "dependencies": {
-    "async": "^2.6.3",
+    "async": "^3.2.0",
     "mime": "^2.4.6",
     "progress-stream": "^2.0.0",
     "request": "^2.85.0",
