@@ -1,5 +1,5 @@
 var extend = require('util-extend')
-var request = require('request')
+var get = require('simple-get')
 var async = require('async')
 var mime = require('mime')
 var progress = require('progress-stream')
@@ -36,7 +36,7 @@ function Upload () {
 
     var form = {
       method: 'POST',
-      uri: uploadUri,
+      url: uploadUri,
       headers: {
         'Content-Type': mime.getType(fileName),
         'Content-Length': stat.size,
@@ -47,7 +47,7 @@ function Upload () {
     if (opts.token) { form.headers.Authorization = 'token ' + opts.token }
     if (opts.auth) { form.auth = opts.auth }
 
-    var us = request(form)
+    var us = get(form)
 
     var progressOpts = { length: stat.size, time: 100 }
     var prog = progress(progressOpts, function (p) {
