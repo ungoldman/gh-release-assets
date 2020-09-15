@@ -32,8 +32,6 @@ function Upload () {
 
     self.emit('upload-asset', fileName)
 
-    var rd = fs.createReadStream(asset)
-
     var form = {
       method: 'POST',
       url: uploadUri,
@@ -47,23 +45,27 @@ function Upload () {
     if (opts.token) { form.headers.Authorization = 'token ' + opts.token }
     if (opts.auth) { form.auth = opts.auth }
 
-    var us = get(form)
+    get(form, function (err, res) {
+      if (err) return callback(err)
 
-    var progressOpts = { length: stat.size, time: 100 }
-    var prog = progress(progressOpts, function (p) {
-      self.emit('upload-progress', fileName, p)
+      var rd = fs.createReadStream(asset)
+
+      var progressOpts = { length: stat.size, time: 100 }
+      var prog = progress(progressOpts, function (p) {
+        self.emit('upload-progress', fileName, p)
+      })
+
+      rd.on('error', callback)
+      res.on('error', callback)
+
+      res.on('end', function () {
+        self.emit('uploaded-asset', fileName)
+        files.push(fileName)
+        callback()
+      })
+
+      rd.pipe(prog).pipe(res)
     })
-
-    rd.on('error', callback)
-    us.on('error', callback)
-
-    us.on('end', function () {
-      self.emit('uploaded-asset', fileName)
-      files.push(fileName)
-      callback()
-    })
-
-    rd.pipe(prog).pipe(us)
   }, function (err) {
     if (err) {
       cb(err)
