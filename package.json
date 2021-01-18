@@ -15,7 +15,7 @@
     "util-extend": "^1.0.1"
   },
   "devDependencies": {
-    "gh-release": "^4.0.0",
+    "gh-release": "^5.0.0",
     "standard": "^16.0.2",
     "tape": "^5.0.0",
     "tap-spec": "^5.0.0"
