@@ -1,9 +1,16 @@
 # gh-release-assets
 
-[![npm][npm-image]][npm-url]
-[![travis][travis-image]][travis-url]
-
 Upload assets to a GitHub release. Based on the awesome work of [@remixz](https://github.com/remixz) as part of [publish-release](https://github.com/remixz/publish-release).
+
+[![npm][npm-image]][npm-url]
+[![build][build-image]][build-url]
+[![downloads][downloads-image]][npm-url]
+
+[npm-image]: https://img.shields.io/npm/v/gh-release-assets.svg
+[npm-url]: https://www.npmjs.com/package/gh-release-assets
+[build-image]: https://github.com/ungoldman/gh-release-assets/actions/workflows/tests.yml/badge.svg
+[build-url]: https://github.com/ungoldman/gh-release-assets/actions/workflows/tests.yml
+[downloads-image]: https://img.shields.io/npm/dm/gh-release-assets.svg
 
 ## Install
 
@@ -79,8 +86,3 @@ Contributions welcome! Please read the [contributing guidelines](CONTRIBUTING.md
 ## License
 
 [ISC](LICENSE.md)
-
-[npm-image]: https://img.shields.io/npm/v/gh-release-assets.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/gh-release-assets
-[travis-image]: https://img.shields.io/travis/ungoldman/gh-release-assets.svg?style=flat-square
-[travis-url]: https://travis-ci.org/ungoldman/gh-release-assets
