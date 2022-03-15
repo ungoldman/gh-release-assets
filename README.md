@@ -82,5 +82,5 @@ Contributions welcome! Please read the [contributing guidelines](CONTRIBUTING.md
 
 [npm-image]: https://img.shields.io/npm/v/gh-release-assets.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/gh-release-assets
-[travis-image]: https://img.shields.io/travis/hypermodules/gh-release-assets.svg?style=flat-square
-[travis-url]: https://travis-ci.org/hypermodules/gh-release-assets
+[travis-image]: https://img.shields.io/travis/ungoldman/gh-release-assets.svg?style=flat-square
+[travis-url]: https://travis-ci.org/ungoldman/gh-release-assets

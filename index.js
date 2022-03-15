@@ -46,7 +46,7 @@ function Upload () {
       headers: {
         'Content-Type': mime.getType(fileName),
         'Content-Length': stat.size,
-        'User-Agent': 'gh-release-assets ' + pkg.version + ' (https://github.com/hypermodules/gh-release-assets)'
+        'User-Agent': 'gh-release-assets ' + pkg.version + ' (https://github.com/ungoldman/gh-release-assets)'
       },
       body: pumpify(rd, prog)
     }

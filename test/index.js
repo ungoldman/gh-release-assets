@@ -5,7 +5,7 @@ var test = require('tape')
 var fixture = path.join.bind(null, __dirname, 'fixtures')
 
 var TOKEN = process.env.TOKEN
-var REPO = process.env.REPO || 'hypermodules/gh-release-test'
+var REPO = process.env.REPO || 'ungoldman/gh-release-test'
 var RELEASE = process.env.RELEASE
 
 function auth (assets) {
