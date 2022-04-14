@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "gh-release": "^6.0.0",
+    "snazzy": "^9.0.0",
     "standard": "^16.0.2",
     "tap-arc": "^0.3.4",
     "tape": "^5.0.0"
@@ -46,6 +47,7 @@
   },
   "scripts": {
     "release": "gh-release --owner=ungoldman && npm publish",
-    "test": "standard && tape test/index.js | tap-arc"
+    "pretest": "standard | snazzy",
+    "test": "tape test/index.js | tap-arc"
   }
 }
