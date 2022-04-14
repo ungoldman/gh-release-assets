@@ -6,6 +6,11 @@
   "bugs": {
     "url": "https://github.com/ungoldman/gh-release-assets/issues"
   },
+  "contributors": [
+    "Nate Goldman <ungoldman@gmail.com>",
+    "Bret Comnes <bcomnes@gmail.com>",
+    "Paul C Pederson <paul.c.pederson@gmail.com>"
+  ],
   "dependencies": {
     "async": "^3.2.0",
     "mime": "^2.4.6",
