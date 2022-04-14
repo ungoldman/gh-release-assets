@@ -1,7 +1,7 @@
 {
   "name": "gh-release-assets",
   "description": "Upload assets to a GitHub release",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "Paul C Pederson <paul.c.pederson@gmail.com>",
   "bugs": {
     "url": "https://github.com/ungoldman/gh-release-assets/issues"
