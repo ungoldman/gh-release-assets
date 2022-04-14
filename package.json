@@ -25,6 +25,9 @@
     "tap-arc": "^0.3.4",
     "tape": "^5.0.0"
   },
+  "engines": {
+    "node": ">=12"
+  },
   "files": [
     "index.js"
   ],
