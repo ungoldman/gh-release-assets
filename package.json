@@ -3,34 +3,37 @@
   "description": "Upload assets to a GitHub release",
   "version": "2.0.1",
   "author": "Paul C Pederson <paul.c.pederson@gmail.com>",
+  "bin": {
+    "gh-release-assets": "./dist/cli.js"
+  },
   "bugs": {
     "url": "https://github.com/ungoldman/gh-release-assets/issues"
   },
   "contributors": [
+    "Paul C Pederson <paul.c.pederson@gmail.com>",
     "Nate Goldman <ungoldman@gmail.com>",
-    "Bret Comnes <bcomnes@gmail.com>",
-    "Paul C Pederson <paul.c.pederson@gmail.com>"
+    "Bret Comnes <bcomnes@gmail.com>"
   ],
   "dependencies": {
-    "async": "^3.2.0",
-    "mime": "^3.0.0",
-    "progress-stream": "^2.0.0",
-    "pumpify": "^2.0.1",
-    "simple-get": "^4.0.0",
-    "util-extend": "^1.0.1"
+    "mime": "^4.1.0"
   },
   "devDependencies": {
-    "gh-release": "^6.0.0",
-    "snazzy": "^9.0.0",
-    "standard": "^16.0.2",
-    "tap-arc": "^0.3.4",
-    "tape": "^5.0.0"
+    "@biomejs/biome": "^2.5.0",
+    "@types/node": "^22.19.21",
+    "fast-check": "^4.8.0",
+    "typescript": "^6.0.3"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=22.12.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
   },
   "files": [
-    "index.js"
+    "dist"
   ],
   "homepage": "https://github.com/ungoldman/gh-release-assets",
   "keywords": [
@@ -40,14 +43,23 @@
     "upload"
   ],
   "license": "ISC",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ungoldman/gh-release-assets.git"
+    "url": "git+https://github.com/ungoldman/gh-release-assets.git"
   },
   "scripts": {
-    "release": "gh-release --owner=ungoldman && npm publish",
-    "pretest": "standard | snazzy",
-    "test": "tape test/index.js | tap-arc"
-  }
+    "build": "tsc -p tsconfig.build.json",
+    "coverage": "npm run build && node --test --experimental-test-coverage --test-coverage-exclude=\"test/**\" --test-coverage-exclude=\"dist/**\" --test-coverage-lines=100 --test-coverage-branches=100 --test-coverage-functions=100 test/*.test.ts",
+    "format": "biome check --write .",
+    "lint": "biome check .",
+    "prebuild": "rm -rf dist",
+    "prepublishOnly": "npm run build",
+    "test": "npm run lint && npm run typecheck && npm run build && node --test test/*.test.ts",
+    "typecheck": "tsc"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "types": "./dist/index.d.ts"
 }
