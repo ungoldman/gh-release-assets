@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0](https://github.com/ungoldman/gh-release-assets/compare/v2.0.1...v3.0.0) (2026-06-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* The package is now ESM-only and must be imported rather than required. The minimum supported Node.js version is now 22.12.0. Username/password (HTTP basic auth) support has been removed, so authentication now requires a token. GitHub disabled password authentication for its API in 2020, and basic auth is poor security practice.
+
+### Build System
+
+* convert to TypeScript and ESM ([#23](https://github.com/ungoldman/gh-release-assets/issues/23)) ([9991c90](https://github.com/ungoldman/gh-release-assets/commit/9991c902547aad127e70212f0772638da10386d1))
+
 ## [2.0.1](https://github.com/ungoldman/gh-release-assets/releases/v2.0.1)
 
 ### Fixes
