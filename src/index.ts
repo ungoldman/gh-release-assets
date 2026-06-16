@@ -94,44 +94,43 @@ function progressStream(length: number, onProgress: (p: UploadProgress) => void)
   })
 }
 
-function uploadOne(emitter: Uploader, opts: UploadOptions, asset: Asset): Promise<string> {
+async function uploadOne(emitter: Uploader, opts: UploadOptions, asset: Asset): Promise<string> {
+  const { fileName, filePath } = normalize(asset)
+  const uploadUri = `${opts.url.split('{')[0]}?name=${fileName}`
+  const stats = await stat(filePath)
+
   return new Promise((resolve, reject) => {
-    const { fileName, filePath } = normalize(asset)
-    const uploadUri = `${opts.url.split('{')[0]}?name=${fileName}`
+    emitter.emit('upload-asset', fileName)
 
-    stat(filePath).then((stats) => {
-      emitter.emit('upload-asset', fileName)
+    const target = new URL(uploadUri)
+    const requestFn = target.protocol === 'https:' ? httpsRequest : httpRequest
 
-      const target = new URL(uploadUri)
-      const requestFn = target.protocol === 'https:' ? httpsRequest : httpRequest
+    const headers: Record<string, string | number> = {
+      'Content-Type': mime.getType(fileName) ?? 'application/octet-stream',
+      'Content-Length': stats.size,
+      'User-Agent': `gh-release-assets ${pkg.version} (https://github.com/ungoldman/gh-release-assets)`
+    }
+    headers.Authorization = `token ${opts.token}`
 
-      const headers: Record<string, string | number> = {
-        'Content-Type': mime.getType(fileName) ?? 'application/octet-stream',
-        'Content-Length': stats.size,
-        'User-Agent': `gh-release-assets ${pkg.version} (https://github.com/ungoldman/gh-release-assets)`
-      }
-      headers.Authorization = `token ${opts.token}`
-
-      const req = requestFn(target, { method: 'POST', headers }, (res) => {
-        // Drain the response so the socket frees up. Status is intentionally
-        // not checked: any response counts as success (preserved behavior).
-        res.on('data', () => {})
-        res.on('end', () => {
-          emitter.emit('uploaded-asset', fileName)
-          resolve(fileName)
-        })
-        res.on('error', reject)
+    const req = requestFn(target, { method: 'POST', headers }, (res) => {
+      // Drain the response so the socket frees up. Status is intentionally
+      // not checked: any response counts as success (preserved behavior).
+      res.on('data', () => {})
+      res.on('end', () => {
+        emitter.emit('uploaded-asset', fileName)
+        resolve(fileName)
       })
+      res.on('error', reject)
+    })
 
-      req.on('error', reject)
+    req.on('error', reject)
 
-      const prog = progressStream(stats.size, (p) => {
-        emitter.emit('upload-progress', fileName, p)
-      })
-      prog.on('error', reject)
+    const prog = progressStream(stats.size, (p) => {
+      emitter.emit('upload-progress', fileName, p)
+    })
+    prog.on('error', reject)
 
-      createReadStream(filePath).on('error', reject).pipe(prog).pipe(req)
-    }, reject)
+    createReadStream(filePath).on('error', reject).pipe(prog).pipe(req)
   })
 }
 
