@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./logo.png">
+<img src="./logo.png" width="120" height="120" alt="paperclip">
 
 # gh-release-assets
 
